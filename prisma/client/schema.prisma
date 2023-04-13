@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int                @id @default(autoincrement())
+  firstName   String
+  lastName    String
+  username    String
+  email       String             @unique // index on this field for later lookups operations
+  password    String
+  socialMedia Json?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  courses     CourseEnrollment[]
+  testResults TestResult[]       @relation(name: "examiner")
+  TestResult  TestResult[]       @relation(name: "grader")
+}
+
+enum userRole {
+  TEACHER
+  STUDENT
+}
+
+model Course {
+  id          Int                @id @default(autoincrement())
+  title       String
+  description String
+  duration    Decimal
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+  courses     CourseEnrollment[]
+}
+
+// i have created the N-M relation table explicitly so i can customize it 
+model CourseEnrollment {
+  createdAt DateTime @default(now()) // if its a relation to student, this represents the joining time, if its a relation to a teacher, this represents the creation time
+  updatedAt DateTime @updatedAt
+  userRole  userRole
+
+  // relation to the course entity 
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseId Int
+
+  // relations to the user entity 
+  member   User @relation(fields: [memberId], onDelete: Cascade, references: [id])
+  memberId Int
+
+  // composed pk
+  // @@id([courseId, memberId, userRole]) // by adding the role to the pk, we now made [fady, math_101, teacher] and [fady, math_101, student] is valid, and this is not right
+  @@id([courseId, memberId]) // by adding the role to the pk, we now made [fady, math_101, teacher] and [fady, math_101, student] is not valid, and this is right
+}
+
+model Test {
+  id          Int          @id @default(autoincrement())
+  title       String
+  testDate    DateTime     @default(now())
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  testResults TestResult[]
+}
+
+model TestResult {
+  id        Int      @id @default(autoincrement())
+  result    Decimal
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // the relation with the test entity
+  test   Test @relation(references: [id], fields: [testId], onDelete: Cascade)
+  testId Int
+
+  // the relation with student user
+  student   User @relation(fields: [studentId], references: [id], name: "examiner")
+  studentId Int
+
+  // the relation with the teacher user
+  teacher   User @relation(fields: [teacherId], references: [id], name: "grader")
+  teacherId Int
+}

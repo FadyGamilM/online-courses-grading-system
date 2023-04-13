@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output   = "./client"
 }
 
 datasource db {
@@ -21,8 +22,8 @@ model User {
   createdAt   DateTime           @default(now())
   updatedAt   DateTime           @updatedAt
   courses     CourseEnrollment[]
-  testResults TestResult[]       @relation(name: "studentTestsResults")
-  TestResult  TestResult[]       @relation(name: "teacherGrader")
+  testResults TestResult[]       @relation(name: "examiner")
+  TestResult  TestResult[]       @relation(name: "grader")
 }
 
 enum userRole {
@@ -79,10 +80,10 @@ model TestResult {
   testId Int
 
   // the relation with student user
-  student   User @relation(fields: [studentId], references: [id], name: "studentTestsResults")
+  student   User @relation(fields: [studentId], references: [id], name: "examiner")
   studentId Int
 
   // the relation with the teacher user
-  teacher   User @relation(fields: [teacherId], references: [id], name: "teacherGrader")
+  teacher   User @relation(fields: [teacherId], references: [id], name: "grader")
   teacherId Int
 }
