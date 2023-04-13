@@ -142,7 +142,8 @@ exports.Prisma.TestScalarFieldEnum = makeEnum({
   title: 'title',
   testDate: 'testDate',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  courseId: 'courseId'
 });
 
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({

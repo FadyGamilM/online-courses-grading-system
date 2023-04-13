@@ -12,18 +12,24 @@ datasource db {
 }
 
 model User {
-  id          Int                @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   firstName   String
   lastName    String
   username    String
-  email       String             @unique // index on this field for later lookups operations
+  email       String   @unique // index on this field for later lookups operations
   password    String
   socialMedia Json?
-  createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @updatedAt
-  courses     CourseEnrollment[]
-  testResults TestResult[]       @relation(name: "examiner")
-  TestResult  TestResult[]       @relation(name: "grader")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // one user can enroll to one or many courses (as student or as a teacher)
+  courses CourseEnrollment[]
+
+  // one student can have multiple tests results
+  studentResults TestResult[] @relation(name: "examiner")
+
+  // one teacher can grade/mark many tests
+  gradedTestsResults TestResult[] @relation(name: "grader")
 }
 
 enum userRole {
@@ -32,13 +38,18 @@ enum userRole {
 }
 
 model Course {
-  id          Int                @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   title       String
   description String
   duration    Decimal
-  createdAt   DateTime           @default(now())
-  updatedAt   DateTime           @updatedAt
-  courses     CourseEnrollment[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // one coruse has many users enrolled into it 
+  members CourseEnrollment[]
+
+  // one course has many tests
+  tests Test[]
 }
 
 // i have created the N-M relation table explicitly so i can customize it 
@@ -66,7 +77,12 @@ model Test {
   testDate    DateTime     @default(now())
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  // one test has multiple tests results
   testResults TestResult[]
+
+  // a course has many tests
+  course   Course @relation(fields: [courseId], references: [id])
+  courseId Int
 }
 
 model TestResult {

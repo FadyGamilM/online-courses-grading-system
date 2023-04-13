@@ -63,6 +63,7 @@ export type Test = {
   testDate: Date
   createdAt: Date
   updatedAt: Date
+  courseId: number
 }
 
 /**
@@ -902,14 +903,14 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     courses: number
-    testResults: number
-    TestResult: number
+    studentResults: number
+    gradedTestsResults: number
   }
 
   export type UserCountOutputTypeSelect = {
     courses?: boolean
-    testResults?: boolean
-    TestResult?: boolean
+    studentResults?: boolean
+    gradedTestsResults?: boolean
   }
 
   export type UserCountOutputTypeGetPayload<S extends boolean | null | undefined | UserCountOutputTypeArgs> =
@@ -948,11 +949,13 @@ export namespace Prisma {
 
 
   export type CourseCountOutputType = {
-    courses: number
+    members: number
+    tests: number
   }
 
   export type CourseCountOutputTypeSelect = {
-    courses?: boolean
+    members?: boolean
+    tests?: boolean
   }
 
   export type CourseCountOutputTypeGetPayload<S extends boolean | null | undefined | CourseCountOutputTypeArgs> =
@@ -1261,16 +1264,16 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     courses?: boolean | User$coursesArgs
-    testResults?: boolean | User$testResultsArgs
-    TestResult?: boolean | User$TestResultArgs
+    studentResults?: boolean | User$studentResultsArgs
+    gradedTestsResults?: boolean | User$gradedTestsResultsArgs
     _count?: boolean | UserCountOutputTypeArgs
   }
 
 
   export type UserInclude = {
     courses?: boolean | User$coursesArgs
-    testResults?: boolean | User$testResultsArgs
-    TestResult?: boolean | User$TestResultArgs
+    studentResults?: boolean | User$studentResultsArgs
+    gradedTestsResults?: boolean | User$gradedTestsResultsArgs
     _count?: boolean | UserCountOutputTypeArgs
   }
 
@@ -1282,16 +1285,16 @@ export namespace Prisma {
     ? User  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'courses' ? Array < CourseEnrollmentGetPayload<S['include'][P]>>  :
-        P extends 'testResults' ? Array < TestResultGetPayload<S['include'][P]>>  :
-        P extends 'TestResult' ? Array < TestResultGetPayload<S['include'][P]>>  :
+        P extends 'studentResults' ? Array < TestResultGetPayload<S['include'][P]>>  :
+        P extends 'gradedTestsResults' ? Array < TestResultGetPayload<S['include'][P]>>  :
         P extends '_count' ? UserCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (UserArgs | UserFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'courses' ? Array < CourseEnrollmentGetPayload<S['select'][P]>>  :
-        P extends 'testResults' ? Array < TestResultGetPayload<S['select'][P]>>  :
-        P extends 'TestResult' ? Array < TestResultGetPayload<S['select'][P]>>  :
+        P extends 'studentResults' ? Array < TestResultGetPayload<S['select'][P]>>  :
+        P extends 'gradedTestsResults' ? Array < TestResultGetPayload<S['select'][P]>>  :
         P extends '_count' ? UserCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof User ? User[P] : never
   } 
       : User
@@ -1666,9 +1669,9 @@ export namespace Prisma {
 
     courses<T extends User$coursesArgs= {}>(args?: Subset<T, User$coursesArgs>): Prisma.PrismaPromise<Array<CourseEnrollmentGetPayload<T>>| Null>;
 
-    testResults<T extends User$testResultsArgs= {}>(args?: Subset<T, User$testResultsArgs>): Prisma.PrismaPromise<Array<TestResultGetPayload<T>>| Null>;
+    studentResults<T extends User$studentResultsArgs= {}>(args?: Subset<T, User$studentResultsArgs>): Prisma.PrismaPromise<Array<TestResultGetPayload<T>>| Null>;
 
-    TestResult<T extends User$TestResultArgs= {}>(args?: Subset<T, User$TestResultArgs>): Prisma.PrismaPromise<Array<TestResultGetPayload<T>>| Null>;
+    gradedTestsResults<T extends User$gradedTestsResultsArgs= {}>(args?: Subset<T, User$gradedTestsResultsArgs>): Prisma.PrismaPromise<Array<TestResultGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -2047,9 +2050,9 @@ export namespace Prisma {
 
 
   /**
-   * User.testResults
+   * User.studentResults
    */
-  export type User$testResultsArgs = {
+  export type User$studentResultsArgs = {
     /**
      * Select specific fields to fetch from the TestResult
      */
@@ -2068,9 +2071,9 @@ export namespace Prisma {
 
 
   /**
-   * User.TestResult
+   * User.gradedTestsResults
    */
-  export type User$TestResultArgs = {
+  export type User$gradedTestsResultsArgs = {
     /**
      * Select specific fields to fetch from the TestResult
      */
@@ -2316,13 +2319,15 @@ export namespace Prisma {
     duration?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    courses?: boolean | Course$coursesArgs
+    members?: boolean | Course$membersArgs
+    tests?: boolean | Course$testsArgs
     _count?: boolean | CourseCountOutputTypeArgs
   }
 
 
   export type CourseInclude = {
-    courses?: boolean | Course$coursesArgs
+    members?: boolean | Course$membersArgs
+    tests?: boolean | Course$testsArgs
     _count?: boolean | CourseCountOutputTypeArgs
   }
 
@@ -2333,13 +2338,15 @@ export namespace Prisma {
     S extends { include: any } & (CourseArgs | CourseFindManyArgs)
     ? Course  & {
     [P in TruthyKeys<S['include']>]:
-        P extends 'courses' ? Array < CourseEnrollmentGetPayload<S['include'][P]>>  :
+        P extends 'members' ? Array < CourseEnrollmentGetPayload<S['include'][P]>>  :
+        P extends 'tests' ? Array < TestGetPayload<S['include'][P]>>  :
         P extends '_count' ? CourseCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (CourseArgs | CourseFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
-        P extends 'courses' ? Array < CourseEnrollmentGetPayload<S['select'][P]>>  :
+        P extends 'members' ? Array < CourseEnrollmentGetPayload<S['select'][P]>>  :
+        P extends 'tests' ? Array < TestGetPayload<S['select'][P]>>  :
         P extends '_count' ? CourseCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Course ? Course[P] : never
   } 
       : Course
@@ -2712,7 +2719,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    courses<T extends Course$coursesArgs= {}>(args?: Subset<T, Course$coursesArgs>): Prisma.PrismaPromise<Array<CourseEnrollmentGetPayload<T>>| Null>;
+    members<T extends Course$membersArgs= {}>(args?: Subset<T, Course$membersArgs>): Prisma.PrismaPromise<Array<CourseEnrollmentGetPayload<T>>| Null>;
+
+    tests<T extends Course$testsArgs= {}>(args?: Subset<T, Course$testsArgs>): Prisma.PrismaPromise<Array<TestGetPayload<T>>| Null>;
 
     private get _document();
     /**
@@ -3070,9 +3079,9 @@ export namespace Prisma {
 
 
   /**
-   * Course.courses
+   * Course.members
    */
-  export type Course$coursesArgs = {
+  export type Course$membersArgs = {
     /**
      * Select specific fields to fetch from the CourseEnrollment
      */
@@ -3087,6 +3096,27 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Enumerable<CourseEnrollmentScalarFieldEnum>
+  }
+
+
+  /**
+   * Course.tests
+   */
+  export type Course$testsArgs = {
+    /**
+     * Select specific fields to fetch from the Test
+     */
+    select?: TestSelect | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TestInclude | null
+    where?: TestWhereInput
+    orderBy?: Enumerable<TestOrderByWithRelationInput>
+    cursor?: TestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<TestScalarFieldEnum>
   }
 
 
@@ -4096,10 +4126,12 @@ export namespace Prisma {
 
   export type TestAvgAggregateOutputType = {
     id: number | null
+    courseId: number | null
   }
 
   export type TestSumAggregateOutputType = {
     id: number | null
+    courseId: number | null
   }
 
   export type TestMinAggregateOutputType = {
@@ -4108,6 +4140,7 @@ export namespace Prisma {
     testDate: Date | null
     createdAt: Date | null
     updatedAt: Date | null
+    courseId: number | null
   }
 
   export type TestMaxAggregateOutputType = {
@@ -4116,6 +4149,7 @@ export namespace Prisma {
     testDate: Date | null
     createdAt: Date | null
     updatedAt: Date | null
+    courseId: number | null
   }
 
   export type TestCountAggregateOutputType = {
@@ -4124,16 +4158,19 @@ export namespace Prisma {
     testDate: number
     createdAt: number
     updatedAt: number
+    courseId: number
     _all: number
   }
 
 
   export type TestAvgAggregateInputType = {
     id?: true
+    courseId?: true
   }
 
   export type TestSumAggregateInputType = {
     id?: true
+    courseId?: true
   }
 
   export type TestMinAggregateInputType = {
@@ -4142,6 +4179,7 @@ export namespace Prisma {
     testDate?: true
     createdAt?: true
     updatedAt?: true
+    courseId?: true
   }
 
   export type TestMaxAggregateInputType = {
@@ -4150,6 +4188,7 @@ export namespace Prisma {
     testDate?: true
     createdAt?: true
     updatedAt?: true
+    courseId?: true
   }
 
   export type TestCountAggregateInputType = {
@@ -4158,6 +4197,7 @@ export namespace Prisma {
     testDate?: true
     createdAt?: true
     updatedAt?: true
+    courseId?: true
     _all?: true
   }
 
@@ -4254,6 +4294,7 @@ export namespace Prisma {
     testDate: Date
     createdAt: Date
     updatedAt: Date
+    courseId: number
     _count: TestCountAggregateOutputType | null
     _avg: TestAvgAggregateOutputType | null
     _sum: TestSumAggregateOutputType | null
@@ -4281,13 +4322,16 @@ export namespace Prisma {
     testDate?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    courseId?: boolean
     testResults?: boolean | Test$testResultsArgs
+    course?: boolean | CourseArgs
     _count?: boolean | TestCountOutputTypeArgs
   }
 
 
   export type TestInclude = {
     testResults?: boolean | Test$testResultsArgs
+    course?: boolean | CourseArgs
     _count?: boolean | TestCountOutputTypeArgs
   }
 
@@ -4299,12 +4343,14 @@ export namespace Prisma {
     ? Test  & {
     [P in TruthyKeys<S['include']>]:
         P extends 'testResults' ? Array < TestResultGetPayload<S['include'][P]>>  :
+        P extends 'course' ? CourseGetPayload<S['include'][P]> :
         P extends '_count' ? TestCountOutputTypeGetPayload<S['include'][P]> :  never
   } 
     : S extends { select: any } & (TestArgs | TestFindManyArgs)
       ? {
     [P in TruthyKeys<S['select']>]:
         P extends 'testResults' ? Array < TestResultGetPayload<S['select'][P]>>  :
+        P extends 'course' ? CourseGetPayload<S['select'][P]> :
         P extends '_count' ? TestCountOutputTypeGetPayload<S['select'][P]> :  P extends keyof Test ? Test[P] : never
   } 
       : Test
@@ -4678,6 +4724,8 @@ export namespace Prisma {
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
     testResults<T extends Test$testResultsArgs= {}>(args?: Subset<T, Test$testResultsArgs>): Prisma.PrismaPromise<Array<TestResultGetPayload<T>>| Null>;
+
+    course<T extends CourseArgs= {}>(args?: Subset<T, CourseArgs>): Prisma__CourseClient<CourseGetPayload<T> | Null>;
 
     private get _document();
     /**
@@ -6161,7 +6209,8 @@ export namespace Prisma {
     title: 'title',
     testDate: 'testDate',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    courseId: 'courseId'
   };
 
   export type TestScalarFieldEnum = (typeof TestScalarFieldEnum)[keyof typeof TestScalarFieldEnum]
@@ -6211,8 +6260,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
     courses?: CourseEnrollmentListRelationFilter
-    testResults?: TestResultListRelationFilter
-    TestResult?: TestResultListRelationFilter
+    studentResults?: TestResultListRelationFilter
+    gradedTestsResults?: TestResultListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -6226,8 +6275,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     courses?: CourseEnrollmentOrderByRelationAggregateInput
-    testResults?: TestResultOrderByRelationAggregateInput
-    TestResult?: TestResultOrderByRelationAggregateInput
+    studentResults?: TestResultOrderByRelationAggregateInput
+    gradedTestsResults?: TestResultOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = {
@@ -6277,7 +6326,8 @@ export namespace Prisma {
     duration?: DecimalFilter | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
-    courses?: CourseEnrollmentListRelationFilter
+    members?: CourseEnrollmentListRelationFilter
+    tests?: TestListRelationFilter
   }
 
   export type CourseOrderByWithRelationInput = {
@@ -6287,7 +6337,8 @@ export namespace Prisma {
     duration?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    courses?: CourseEnrollmentOrderByRelationAggregateInput
+    members?: CourseEnrollmentOrderByRelationAggregateInput
+    tests?: TestOrderByRelationAggregateInput
   }
 
   export type CourseWhereUniqueInput = {
@@ -6380,7 +6431,9 @@ export namespace Prisma {
     testDate?: DateTimeFilter | Date | string
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
+    courseId?: IntFilter | number
     testResults?: TestResultListRelationFilter
+    course?: XOR<CourseRelationFilter, CourseWhereInput>
   }
 
   export type TestOrderByWithRelationInput = {
@@ -6389,7 +6442,9 @@ export namespace Prisma {
     testDate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    courseId?: SortOrder
     testResults?: TestResultOrderByRelationAggregateInput
+    course?: CourseOrderByWithRelationInput
   }
 
   export type TestWhereUniqueInput = {
@@ -6402,6 +6457,7 @@ export namespace Prisma {
     testDate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    courseId?: SortOrder
     _count?: TestCountOrderByAggregateInput
     _avg?: TestAvgOrderByAggregateInput
     _max?: TestMaxOrderByAggregateInput
@@ -6418,6 +6474,7 @@ export namespace Prisma {
     testDate?: DateTimeWithAggregatesFilter | Date | string
     createdAt?: DateTimeWithAggregatesFilter | Date | string
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
+    courseId?: IntWithAggregatesFilter | number
   }
 
   export type TestResultWhereInput = {
@@ -6491,8 +6548,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     courses?: CourseEnrollmentCreateNestedManyWithoutMemberInput
-    testResults?: TestResultCreateNestedManyWithoutStudentInput
-    TestResult?: TestResultCreateNestedManyWithoutTeacherInput
+    studentResults?: TestResultCreateNestedManyWithoutStudentInput
+    gradedTestsResults?: TestResultCreateNestedManyWithoutTeacherInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -6506,8 +6563,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     courses?: CourseEnrollmentUncheckedCreateNestedManyWithoutMemberInput
-    testResults?: TestResultUncheckedCreateNestedManyWithoutStudentInput
-    TestResult?: TestResultUncheckedCreateNestedManyWithoutTeacherInput
+    studentResults?: TestResultUncheckedCreateNestedManyWithoutStudentInput
+    gradedTestsResults?: TestResultUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type UserUpdateInput = {
@@ -6520,8 +6577,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courses?: CourseEnrollmentUpdateManyWithoutMemberNestedInput
-    testResults?: TestResultUpdateManyWithoutStudentNestedInput
-    TestResult?: TestResultUpdateManyWithoutTeacherNestedInput
+    studentResults?: TestResultUpdateManyWithoutStudentNestedInput
+    gradedTestsResults?: TestResultUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -6535,8 +6592,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courses?: CourseEnrollmentUncheckedUpdateManyWithoutMemberNestedInput
-    testResults?: TestResultUncheckedUpdateManyWithoutStudentNestedInput
-    TestResult?: TestResultUncheckedUpdateManyWithoutTeacherNestedInput
+    studentResults?: TestResultUncheckedUpdateManyWithoutStudentNestedInput
+    gradedTestsResults?: TestResultUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -6580,7 +6637,8 @@ export namespace Prisma {
     duration: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
-    courses?: CourseEnrollmentCreateNestedManyWithoutCourseInput
+    members?: CourseEnrollmentCreateNestedManyWithoutCourseInput
+    tests?: TestCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUncheckedCreateInput = {
@@ -6590,7 +6648,8 @@ export namespace Prisma {
     duration: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
-    courses?: CourseEnrollmentUncheckedCreateNestedManyWithoutCourseInput
+    members?: CourseEnrollmentUncheckedCreateNestedManyWithoutCourseInput
+    tests?: TestUncheckedCreateNestedManyWithoutCourseInput
   }
 
   export type CourseUpdateInput = {
@@ -6599,7 +6658,8 @@ export namespace Prisma {
     duration?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    courses?: CourseEnrollmentUpdateManyWithoutCourseNestedInput
+    members?: CourseEnrollmentUpdateManyWithoutCourseNestedInput
+    tests?: TestUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseUncheckedUpdateInput = {
@@ -6609,7 +6669,8 @@ export namespace Prisma {
     duration?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    courses?: CourseEnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+    members?: CourseEnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+    tests?: TestUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type CourseCreateManyInput = {
@@ -6642,7 +6703,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userRole: userRole
-    course: CourseCreateNestedOneWithoutCoursesInput
+    course: CourseCreateNestedOneWithoutMembersInput
     member: UserCreateNestedOneWithoutCoursesInput
   }
 
@@ -6658,7 +6719,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userRole?: EnumuserRoleFieldUpdateOperationsInput | userRole
-    course?: CourseUpdateOneRequiredWithoutCoursesNestedInput
+    course?: CourseUpdateOneRequiredWithoutMembersNestedInput
     member?: UserUpdateOneRequiredWithoutCoursesNestedInput
   }
 
@@ -6698,6 +6759,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     testResults?: TestResultCreateNestedManyWithoutTestInput
+    course: CourseCreateNestedOneWithoutTestsInput
   }
 
   export type TestUncheckedCreateInput = {
@@ -6706,6 +6768,7 @@ export namespace Prisma {
     testDate?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    courseId: number
     testResults?: TestResultUncheckedCreateNestedManyWithoutTestInput
   }
 
@@ -6715,6 +6778,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     testResults?: TestResultUpdateManyWithoutTestNestedInput
+    course?: CourseUpdateOneRequiredWithoutTestsNestedInput
   }
 
   export type TestUncheckedUpdateInput = {
@@ -6723,6 +6787,7 @@ export namespace Prisma {
     testDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    courseId?: IntFieldUpdateOperationsInput | number
     testResults?: TestResultUncheckedUpdateManyWithoutTestNestedInput
   }
 
@@ -6732,6 +6797,7 @@ export namespace Prisma {
     testDate?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    courseId: number
   }
 
   export type TestUpdateManyMutationInput = {
@@ -6747,6 +6813,7 @@ export namespace Prisma {
     testDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    courseId?: IntFieldUpdateOperationsInput | number
   }
 
   export type TestResultCreateInput = {
@@ -6754,8 +6821,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     test: TestCreateNestedOneWithoutTestResultsInput
-    student: UserCreateNestedOneWithoutTestResultsInput
-    teacher: UserCreateNestedOneWithoutTestResultInput
+    student: UserCreateNestedOneWithoutStudentResultsInput
+    teacher: UserCreateNestedOneWithoutGradedTestsResultsInput
   }
 
   export type TestResultUncheckedCreateInput = {
@@ -6773,8 +6840,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     test?: TestUpdateOneRequiredWithoutTestResultsNestedInput
-    student?: UserUpdateOneRequiredWithoutTestResultsNestedInput
-    teacher?: UserUpdateOneRequiredWithoutTestResultNestedInput
+    student?: UserUpdateOneRequiredWithoutStudentResultsNestedInput
+    teacher?: UserUpdateOneRequiredWithoutGradedTestsResultsNestedInput
   }
 
   export type TestResultUncheckedUpdateInput = {
@@ -7018,6 +7085,16 @@ export namespace Prisma {
     not?: NestedDecimalFilter | Decimal | DecimalJsLike | number | string
   }
 
+  export type TestListRelationFilter = {
+    every?: TestWhereInput
+    some?: TestWhereInput
+    none?: TestWhereInput
+  }
+
+  export type TestOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type CourseCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
@@ -7143,10 +7220,12 @@ export namespace Prisma {
     testDate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    courseId?: SortOrder
   }
 
   export type TestAvgOrderByAggregateInput = {
     id?: SortOrder
+    courseId?: SortOrder
   }
 
   export type TestMaxOrderByAggregateInput = {
@@ -7155,6 +7234,7 @@ export namespace Prisma {
     testDate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    courseId?: SortOrder
   }
 
   export type TestMinOrderByAggregateInput = {
@@ -7163,10 +7243,12 @@ export namespace Prisma {
     testDate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    courseId?: SortOrder
   }
 
   export type TestSumOrderByAggregateInput = {
     id?: SortOrder
+    courseId?: SortOrder
   }
 
   export type TestRelationFilter = {
@@ -7369,11 +7451,25 @@ export namespace Prisma {
     connect?: Enumerable<CourseEnrollmentWhereUniqueInput>
   }
 
+  export type TestCreateNestedManyWithoutCourseInput = {
+    create?: XOR<Enumerable<TestCreateWithoutCourseInput>, Enumerable<TestUncheckedCreateWithoutCourseInput>>
+    connectOrCreate?: Enumerable<TestCreateOrConnectWithoutCourseInput>
+    createMany?: TestCreateManyCourseInputEnvelope
+    connect?: Enumerable<TestWhereUniqueInput>
+  }
+
   export type CourseEnrollmentUncheckedCreateNestedManyWithoutCourseInput = {
     create?: XOR<Enumerable<CourseEnrollmentCreateWithoutCourseInput>, Enumerable<CourseEnrollmentUncheckedCreateWithoutCourseInput>>
     connectOrCreate?: Enumerable<CourseEnrollmentCreateOrConnectWithoutCourseInput>
     createMany?: CourseEnrollmentCreateManyCourseInputEnvelope
     connect?: Enumerable<CourseEnrollmentWhereUniqueInput>
+  }
+
+  export type TestUncheckedCreateNestedManyWithoutCourseInput = {
+    create?: XOR<Enumerable<TestCreateWithoutCourseInput>, Enumerable<TestUncheckedCreateWithoutCourseInput>>
+    connectOrCreate?: Enumerable<TestCreateOrConnectWithoutCourseInput>
+    createMany?: TestCreateManyCourseInputEnvelope
+    connect?: Enumerable<TestWhereUniqueInput>
   }
 
   export type DecimalFieldUpdateOperationsInput = {
@@ -7398,6 +7494,20 @@ export namespace Prisma {
     deleteMany?: Enumerable<CourseEnrollmentScalarWhereInput>
   }
 
+  export type TestUpdateManyWithoutCourseNestedInput = {
+    create?: XOR<Enumerable<TestCreateWithoutCourseInput>, Enumerable<TestUncheckedCreateWithoutCourseInput>>
+    connectOrCreate?: Enumerable<TestCreateOrConnectWithoutCourseInput>
+    upsert?: Enumerable<TestUpsertWithWhereUniqueWithoutCourseInput>
+    createMany?: TestCreateManyCourseInputEnvelope
+    set?: Enumerable<TestWhereUniqueInput>
+    disconnect?: Enumerable<TestWhereUniqueInput>
+    delete?: Enumerable<TestWhereUniqueInput>
+    connect?: Enumerable<TestWhereUniqueInput>
+    update?: Enumerable<TestUpdateWithWhereUniqueWithoutCourseInput>
+    updateMany?: Enumerable<TestUpdateManyWithWhereWithoutCourseInput>
+    deleteMany?: Enumerable<TestScalarWhereInput>
+  }
+
   export type CourseEnrollmentUncheckedUpdateManyWithoutCourseNestedInput = {
     create?: XOR<Enumerable<CourseEnrollmentCreateWithoutCourseInput>, Enumerable<CourseEnrollmentUncheckedCreateWithoutCourseInput>>
     connectOrCreate?: Enumerable<CourseEnrollmentCreateOrConnectWithoutCourseInput>
@@ -7412,9 +7522,23 @@ export namespace Prisma {
     deleteMany?: Enumerable<CourseEnrollmentScalarWhereInput>
   }
 
-  export type CourseCreateNestedOneWithoutCoursesInput = {
-    create?: XOR<CourseCreateWithoutCoursesInput, CourseUncheckedCreateWithoutCoursesInput>
-    connectOrCreate?: CourseCreateOrConnectWithoutCoursesInput
+  export type TestUncheckedUpdateManyWithoutCourseNestedInput = {
+    create?: XOR<Enumerable<TestCreateWithoutCourseInput>, Enumerable<TestUncheckedCreateWithoutCourseInput>>
+    connectOrCreate?: Enumerable<TestCreateOrConnectWithoutCourseInput>
+    upsert?: Enumerable<TestUpsertWithWhereUniqueWithoutCourseInput>
+    createMany?: TestCreateManyCourseInputEnvelope
+    set?: Enumerable<TestWhereUniqueInput>
+    disconnect?: Enumerable<TestWhereUniqueInput>
+    delete?: Enumerable<TestWhereUniqueInput>
+    connect?: Enumerable<TestWhereUniqueInput>
+    update?: Enumerable<TestUpdateWithWhereUniqueWithoutCourseInput>
+    updateMany?: Enumerable<TestUpdateManyWithWhereWithoutCourseInput>
+    deleteMany?: Enumerable<TestScalarWhereInput>
+  }
+
+  export type CourseCreateNestedOneWithoutMembersInput = {
+    create?: XOR<CourseCreateWithoutMembersInput, CourseUncheckedCreateWithoutMembersInput>
+    connectOrCreate?: CourseCreateOrConnectWithoutMembersInput
     connect?: CourseWhereUniqueInput
   }
 
@@ -7428,12 +7552,12 @@ export namespace Prisma {
     set?: userRole
   }
 
-  export type CourseUpdateOneRequiredWithoutCoursesNestedInput = {
-    create?: XOR<CourseCreateWithoutCoursesInput, CourseUncheckedCreateWithoutCoursesInput>
-    connectOrCreate?: CourseCreateOrConnectWithoutCoursesInput
-    upsert?: CourseUpsertWithoutCoursesInput
+  export type CourseUpdateOneRequiredWithoutMembersNestedInput = {
+    create?: XOR<CourseCreateWithoutMembersInput, CourseUncheckedCreateWithoutMembersInput>
+    connectOrCreate?: CourseCreateOrConnectWithoutMembersInput
+    upsert?: CourseUpsertWithoutMembersInput
     connect?: CourseWhereUniqueInput
-    update?: XOR<CourseUpdateWithoutCoursesInput, CourseUncheckedUpdateWithoutCoursesInput>
+    update?: XOR<CourseUpdateWithoutMembersInput, CourseUncheckedUpdateWithoutMembersInput>
   }
 
   export type UserUpdateOneRequiredWithoutCoursesNestedInput = {
@@ -7449,6 +7573,12 @@ export namespace Prisma {
     connectOrCreate?: Enumerable<TestResultCreateOrConnectWithoutTestInput>
     createMany?: TestResultCreateManyTestInputEnvelope
     connect?: Enumerable<TestResultWhereUniqueInput>
+  }
+
+  export type CourseCreateNestedOneWithoutTestsInput = {
+    create?: XOR<CourseCreateWithoutTestsInput, CourseUncheckedCreateWithoutTestsInput>
+    connectOrCreate?: CourseCreateOrConnectWithoutTestsInput
+    connect?: CourseWhereUniqueInput
   }
 
   export type TestResultUncheckedCreateNestedManyWithoutTestInput = {
@@ -7472,6 +7602,14 @@ export namespace Prisma {
     deleteMany?: Enumerable<TestResultScalarWhereInput>
   }
 
+  export type CourseUpdateOneRequiredWithoutTestsNestedInput = {
+    create?: XOR<CourseCreateWithoutTestsInput, CourseUncheckedCreateWithoutTestsInput>
+    connectOrCreate?: CourseCreateOrConnectWithoutTestsInput
+    upsert?: CourseUpsertWithoutTestsInput
+    connect?: CourseWhereUniqueInput
+    update?: XOR<CourseUpdateWithoutTestsInput, CourseUncheckedUpdateWithoutTestsInput>
+  }
+
   export type TestResultUncheckedUpdateManyWithoutTestNestedInput = {
     create?: XOR<Enumerable<TestResultCreateWithoutTestInput>, Enumerable<TestResultUncheckedCreateWithoutTestInput>>
     connectOrCreate?: Enumerable<TestResultCreateOrConnectWithoutTestInput>
@@ -7492,15 +7630,15 @@ export namespace Prisma {
     connect?: TestWhereUniqueInput
   }
 
-  export type UserCreateNestedOneWithoutTestResultsInput = {
-    create?: XOR<UserCreateWithoutTestResultsInput, UserUncheckedCreateWithoutTestResultsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutTestResultsInput
+  export type UserCreateNestedOneWithoutStudentResultsInput = {
+    create?: XOR<UserCreateWithoutStudentResultsInput, UserUncheckedCreateWithoutStudentResultsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutStudentResultsInput
     connect?: UserWhereUniqueInput
   }
 
-  export type UserCreateNestedOneWithoutTestResultInput = {
-    create?: XOR<UserCreateWithoutTestResultInput, UserUncheckedCreateWithoutTestResultInput>
-    connectOrCreate?: UserCreateOrConnectWithoutTestResultInput
+  export type UserCreateNestedOneWithoutGradedTestsResultsInput = {
+    create?: XOR<UserCreateWithoutGradedTestsResultsInput, UserUncheckedCreateWithoutGradedTestsResultsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutGradedTestsResultsInput
     connect?: UserWhereUniqueInput
   }
 
@@ -7512,20 +7650,20 @@ export namespace Prisma {
     update?: XOR<TestUpdateWithoutTestResultsInput, TestUncheckedUpdateWithoutTestResultsInput>
   }
 
-  export type UserUpdateOneRequiredWithoutTestResultsNestedInput = {
-    create?: XOR<UserCreateWithoutTestResultsInput, UserUncheckedCreateWithoutTestResultsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutTestResultsInput
-    upsert?: UserUpsertWithoutTestResultsInput
+  export type UserUpdateOneRequiredWithoutStudentResultsNestedInput = {
+    create?: XOR<UserCreateWithoutStudentResultsInput, UserUncheckedCreateWithoutStudentResultsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutStudentResultsInput
+    upsert?: UserUpsertWithoutStudentResultsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<UserUpdateWithoutTestResultsInput, UserUncheckedUpdateWithoutTestResultsInput>
+    update?: XOR<UserUpdateWithoutStudentResultsInput, UserUncheckedUpdateWithoutStudentResultsInput>
   }
 
-  export type UserUpdateOneRequiredWithoutTestResultNestedInput = {
-    create?: XOR<UserCreateWithoutTestResultInput, UserUncheckedCreateWithoutTestResultInput>
-    connectOrCreate?: UserCreateOrConnectWithoutTestResultInput
-    upsert?: UserUpsertWithoutTestResultInput
+  export type UserUpdateOneRequiredWithoutGradedTestsResultsNestedInput = {
+    create?: XOR<UserCreateWithoutGradedTestsResultsInput, UserUncheckedCreateWithoutGradedTestsResultsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutGradedTestsResultsInput
+    upsert?: UserUpsertWithoutGradedTestsResultsInput
     connect?: UserWhereUniqueInput
-    update?: XOR<UserUpdateWithoutTestResultInput, UserUncheckedUpdateWithoutTestResultInput>
+    update?: XOR<UserUpdateWithoutGradedTestsResultsInput, UserUncheckedUpdateWithoutGradedTestsResultsInput>
   }
 
   export type NestedIntFilter = {
@@ -7703,7 +7841,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     userRole: userRole
-    course: CourseCreateNestedOneWithoutCoursesInput
+    course: CourseCreateNestedOneWithoutMembersInput
   }
 
   export type CourseEnrollmentUncheckedCreateWithoutMemberInput = {
@@ -7728,7 +7866,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     test: TestCreateNestedOneWithoutTestResultsInput
-    teacher: UserCreateNestedOneWithoutTestResultInput
+    teacher: UserCreateNestedOneWithoutGradedTestsResultsInput
   }
 
   export type TestResultUncheckedCreateWithoutStudentInput = {
@@ -7755,7 +7893,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     test: TestCreateNestedOneWithoutTestResultsInput
-    student: UserCreateNestedOneWithoutTestResultsInput
+    student: UserCreateNestedOneWithoutStudentResultsInput
   }
 
   export type TestResultUncheckedCreateWithoutTeacherInput = {
@@ -7817,7 +7955,7 @@ export namespace Prisma {
 
   export type TestResultUpdateManyWithWhereWithoutStudentInput = {
     where: TestResultScalarWhereInput
-    data: XOR<TestResultUpdateManyMutationInput, TestResultUncheckedUpdateManyWithoutTestResultsInput>
+    data: XOR<TestResultUpdateManyMutationInput, TestResultUncheckedUpdateManyWithoutStudentResultsInput>
   }
 
   export type TestResultScalarWhereInput = {
@@ -7846,7 +7984,7 @@ export namespace Prisma {
 
   export type TestResultUpdateManyWithWhereWithoutTeacherInput = {
     where: TestResultScalarWhereInput
-    data: XOR<TestResultUpdateManyMutationInput, TestResultUncheckedUpdateManyWithoutTestResultInput>
+    data: XOR<TestResultUpdateManyMutationInput, TestResultUncheckedUpdateManyWithoutGradedTestsResultsInput>
   }
 
   export type CourseEnrollmentCreateWithoutCourseInput = {
@@ -7873,6 +8011,33 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TestCreateWithoutCourseInput = {
+    title: string
+    testDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    testResults?: TestResultCreateNestedManyWithoutTestInput
+  }
+
+  export type TestUncheckedCreateWithoutCourseInput = {
+    id?: number
+    title: string
+    testDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    testResults?: TestResultUncheckedCreateNestedManyWithoutTestInput
+  }
+
+  export type TestCreateOrConnectWithoutCourseInput = {
+    where: TestWhereUniqueInput
+    create: XOR<TestCreateWithoutCourseInput, TestUncheckedCreateWithoutCourseInput>
+  }
+
+  export type TestCreateManyCourseInputEnvelope = {
+    data: Enumerable<TestCreateManyCourseInput>
+    skipDuplicates?: boolean
+  }
+
   export type CourseEnrollmentUpsertWithWhereUniqueWithoutCourseInput = {
     where: CourseEnrollmentWhereUniqueInput
     update: XOR<CourseEnrollmentUpdateWithoutCourseInput, CourseEnrollmentUncheckedUpdateWithoutCourseInput>
@@ -7886,29 +8051,59 @@ export namespace Prisma {
 
   export type CourseEnrollmentUpdateManyWithWhereWithoutCourseInput = {
     where: CourseEnrollmentScalarWhereInput
-    data: XOR<CourseEnrollmentUpdateManyMutationInput, CourseEnrollmentUncheckedUpdateManyWithoutCoursesInput>
+    data: XOR<CourseEnrollmentUpdateManyMutationInput, CourseEnrollmentUncheckedUpdateManyWithoutMembersInput>
   }
 
-  export type CourseCreateWithoutCoursesInput = {
+  export type TestUpsertWithWhereUniqueWithoutCourseInput = {
+    where: TestWhereUniqueInput
+    update: XOR<TestUpdateWithoutCourseInput, TestUncheckedUpdateWithoutCourseInput>
+    create: XOR<TestCreateWithoutCourseInput, TestUncheckedCreateWithoutCourseInput>
+  }
+
+  export type TestUpdateWithWhereUniqueWithoutCourseInput = {
+    where: TestWhereUniqueInput
+    data: XOR<TestUpdateWithoutCourseInput, TestUncheckedUpdateWithoutCourseInput>
+  }
+
+  export type TestUpdateManyWithWhereWithoutCourseInput = {
+    where: TestScalarWhereInput
+    data: XOR<TestUpdateManyMutationInput, TestUncheckedUpdateManyWithoutTestsInput>
+  }
+
+  export type TestScalarWhereInput = {
+    AND?: Enumerable<TestScalarWhereInput>
+    OR?: Enumerable<TestScalarWhereInput>
+    NOT?: Enumerable<TestScalarWhereInput>
+    id?: IntFilter | number
+    title?: StringFilter | string
+    testDate?: DateTimeFilter | Date | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
+    courseId?: IntFilter | number
+  }
+
+  export type CourseCreateWithoutMembersInput = {
     title: string
     description: string
     duration: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    tests?: TestCreateNestedManyWithoutCourseInput
   }
 
-  export type CourseUncheckedCreateWithoutCoursesInput = {
+  export type CourseUncheckedCreateWithoutMembersInput = {
     id?: number
     title: string
     description: string
     duration: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    tests?: TestUncheckedCreateNestedManyWithoutCourseInput
   }
 
-  export type CourseCreateOrConnectWithoutCoursesInput = {
+  export type CourseCreateOrConnectWithoutMembersInput = {
     where: CourseWhereUniqueInput
-    create: XOR<CourseCreateWithoutCoursesInput, CourseUncheckedCreateWithoutCoursesInput>
+    create: XOR<CourseCreateWithoutMembersInput, CourseUncheckedCreateWithoutMembersInput>
   }
 
   export type UserCreateWithoutCoursesInput = {
@@ -7920,8 +8115,8 @@ export namespace Prisma {
     socialMedia?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    testResults?: TestResultCreateNestedManyWithoutStudentInput
-    TestResult?: TestResultCreateNestedManyWithoutTeacherInput
+    studentResults?: TestResultCreateNestedManyWithoutStudentInput
+    gradedTestsResults?: TestResultCreateNestedManyWithoutTeacherInput
   }
 
   export type UserUncheckedCreateWithoutCoursesInput = {
@@ -7934,8 +8129,8 @@ export namespace Prisma {
     socialMedia?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
-    testResults?: TestResultUncheckedCreateNestedManyWithoutStudentInput
-    TestResult?: TestResultUncheckedCreateNestedManyWithoutTeacherInput
+    studentResults?: TestResultUncheckedCreateNestedManyWithoutStudentInput
+    gradedTestsResults?: TestResultUncheckedCreateNestedManyWithoutTeacherInput
   }
 
   export type UserCreateOrConnectWithoutCoursesInput = {
@@ -7943,26 +8138,28 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutCoursesInput, UserUncheckedCreateWithoutCoursesInput>
   }
 
-  export type CourseUpsertWithoutCoursesInput = {
-    update: XOR<CourseUpdateWithoutCoursesInput, CourseUncheckedUpdateWithoutCoursesInput>
-    create: XOR<CourseCreateWithoutCoursesInput, CourseUncheckedCreateWithoutCoursesInput>
+  export type CourseUpsertWithoutMembersInput = {
+    update: XOR<CourseUpdateWithoutMembersInput, CourseUncheckedUpdateWithoutMembersInput>
+    create: XOR<CourseCreateWithoutMembersInput, CourseUncheckedCreateWithoutMembersInput>
   }
 
-  export type CourseUpdateWithoutCoursesInput = {
+  export type CourseUpdateWithoutMembersInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     duration?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tests?: TestUpdateManyWithoutCourseNestedInput
   }
 
-  export type CourseUncheckedUpdateWithoutCoursesInput = {
+  export type CourseUncheckedUpdateWithoutMembersInput = {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     duration?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    tests?: TestUncheckedUpdateManyWithoutCourseNestedInput
   }
 
   export type UserUpsertWithoutCoursesInput = {
@@ -7979,8 +8176,8 @@ export namespace Prisma {
     socialMedia?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    testResults?: TestResultUpdateManyWithoutStudentNestedInput
-    TestResult?: TestResultUpdateManyWithoutTeacherNestedInput
+    studentResults?: TestResultUpdateManyWithoutStudentNestedInput
+    gradedTestsResults?: TestResultUpdateManyWithoutTeacherNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCoursesInput = {
@@ -7993,16 +8190,16 @@ export namespace Prisma {
     socialMedia?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    testResults?: TestResultUncheckedUpdateManyWithoutStudentNestedInput
-    TestResult?: TestResultUncheckedUpdateManyWithoutTeacherNestedInput
+    studentResults?: TestResultUncheckedUpdateManyWithoutStudentNestedInput
+    gradedTestsResults?: TestResultUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
   export type TestResultCreateWithoutTestInput = {
     result: Decimal | DecimalJsLike | number | string
     createdAt?: Date | string
     updatedAt?: Date | string
-    student: UserCreateNestedOneWithoutTestResultsInput
-    teacher: UserCreateNestedOneWithoutTestResultInput
+    student: UserCreateNestedOneWithoutStudentResultsInput
+    teacher: UserCreateNestedOneWithoutGradedTestsResultsInput
   }
 
   export type TestResultUncheckedCreateWithoutTestInput = {
@@ -8024,6 +8221,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CourseCreateWithoutTestsInput = {
+    title: string
+    description: string
+    duration: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: CourseEnrollmentCreateNestedManyWithoutCourseInput
+  }
+
+  export type CourseUncheckedCreateWithoutTestsInput = {
+    id?: number
+    title: string
+    description: string
+    duration: Decimal | DecimalJsLike | number | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    members?: CourseEnrollmentUncheckedCreateNestedManyWithoutCourseInput
+  }
+
+  export type CourseCreateOrConnectWithoutTestsInput = {
+    where: CourseWhereUniqueInput
+    create: XOR<CourseCreateWithoutTestsInput, CourseUncheckedCreateWithoutTestsInput>
+  }
+
   export type TestResultUpsertWithWhereUniqueWithoutTestInput = {
     where: TestResultWhereUniqueInput
     update: XOR<TestResultUpdateWithoutTestInput, TestResultUncheckedUpdateWithoutTestInput>
@@ -8040,11 +8261,36 @@ export namespace Prisma {
     data: XOR<TestResultUpdateManyMutationInput, TestResultUncheckedUpdateManyWithoutTestResultsInput>
   }
 
+  export type CourseUpsertWithoutTestsInput = {
+    update: XOR<CourseUpdateWithoutTestsInput, CourseUncheckedUpdateWithoutTestsInput>
+    create: XOR<CourseCreateWithoutTestsInput, CourseUncheckedCreateWithoutTestsInput>
+  }
+
+  export type CourseUpdateWithoutTestsInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    duration?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: CourseEnrollmentUpdateManyWithoutCourseNestedInput
+  }
+
+  export type CourseUncheckedUpdateWithoutTestsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    duration?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    members?: CourseEnrollmentUncheckedUpdateManyWithoutCourseNestedInput
+  }
+
   export type TestCreateWithoutTestResultsInput = {
     title: string
     testDate?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    course: CourseCreateNestedOneWithoutTestsInput
   }
 
   export type TestUncheckedCreateWithoutTestResultsInput = {
@@ -8053,6 +8299,7 @@ export namespace Prisma {
     testDate?: Date | string
     createdAt?: Date | string
     updatedAt?: Date | string
+    courseId: number
   }
 
   export type TestCreateOrConnectWithoutTestResultsInput = {
@@ -8060,7 +8307,7 @@ export namespace Prisma {
     create: XOR<TestCreateWithoutTestResultsInput, TestUncheckedCreateWithoutTestResultsInput>
   }
 
-  export type UserCreateWithoutTestResultsInput = {
+  export type UserCreateWithoutStudentResultsInput = {
     firstName: string
     lastName: string
     username: string
@@ -8070,10 +8317,10 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     courses?: CourseEnrollmentCreateNestedManyWithoutMemberInput
-    TestResult?: TestResultCreateNestedManyWithoutTeacherInput
+    gradedTestsResults?: TestResultCreateNestedManyWithoutTeacherInput
   }
 
-  export type UserUncheckedCreateWithoutTestResultsInput = {
+  export type UserUncheckedCreateWithoutStudentResultsInput = {
     id?: number
     firstName: string
     lastName: string
@@ -8084,15 +8331,15 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     courses?: CourseEnrollmentUncheckedCreateNestedManyWithoutMemberInput
-    TestResult?: TestResultUncheckedCreateNestedManyWithoutTeacherInput
+    gradedTestsResults?: TestResultUncheckedCreateNestedManyWithoutTeacherInput
   }
 
-  export type UserCreateOrConnectWithoutTestResultsInput = {
+  export type UserCreateOrConnectWithoutStudentResultsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutTestResultsInput, UserUncheckedCreateWithoutTestResultsInput>
+    create: XOR<UserCreateWithoutStudentResultsInput, UserUncheckedCreateWithoutStudentResultsInput>
   }
 
-  export type UserCreateWithoutTestResultInput = {
+  export type UserCreateWithoutGradedTestsResultsInput = {
     firstName: string
     lastName: string
     username: string
@@ -8102,10 +8349,10 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     courses?: CourseEnrollmentCreateNestedManyWithoutMemberInput
-    testResults?: TestResultCreateNestedManyWithoutStudentInput
+    studentResults?: TestResultCreateNestedManyWithoutStudentInput
   }
 
-  export type UserUncheckedCreateWithoutTestResultInput = {
+  export type UserUncheckedCreateWithoutGradedTestsResultsInput = {
     id?: number
     firstName: string
     lastName: string
@@ -8116,12 +8363,12 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     courses?: CourseEnrollmentUncheckedCreateNestedManyWithoutMemberInput
-    testResults?: TestResultUncheckedCreateNestedManyWithoutStudentInput
+    studentResults?: TestResultUncheckedCreateNestedManyWithoutStudentInput
   }
 
-  export type UserCreateOrConnectWithoutTestResultInput = {
+  export type UserCreateOrConnectWithoutGradedTestsResultsInput = {
     where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutTestResultInput, UserUncheckedCreateWithoutTestResultInput>
+    create: XOR<UserCreateWithoutGradedTestsResultsInput, UserUncheckedCreateWithoutGradedTestsResultsInput>
   }
 
   export type TestUpsertWithoutTestResultsInput = {
@@ -8134,6 +8381,7 @@ export namespace Prisma {
     testDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    course?: CourseUpdateOneRequiredWithoutTestsNestedInput
   }
 
   export type TestUncheckedUpdateWithoutTestResultsInput = {
@@ -8142,14 +8390,15 @@ export namespace Prisma {
     testDate?: DateTimeFieldUpdateOperationsInput | Date | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    courseId?: IntFieldUpdateOperationsInput | number
   }
 
-  export type UserUpsertWithoutTestResultsInput = {
-    update: XOR<UserUpdateWithoutTestResultsInput, UserUncheckedUpdateWithoutTestResultsInput>
-    create: XOR<UserCreateWithoutTestResultsInput, UserUncheckedCreateWithoutTestResultsInput>
+  export type UserUpsertWithoutStudentResultsInput = {
+    update: XOR<UserUpdateWithoutStudentResultsInput, UserUncheckedUpdateWithoutStudentResultsInput>
+    create: XOR<UserCreateWithoutStudentResultsInput, UserUncheckedCreateWithoutStudentResultsInput>
   }
 
-  export type UserUpdateWithoutTestResultsInput = {
+  export type UserUpdateWithoutStudentResultsInput = {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
@@ -8159,10 +8408,10 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courses?: CourseEnrollmentUpdateManyWithoutMemberNestedInput
-    TestResult?: TestResultUpdateManyWithoutTeacherNestedInput
+    gradedTestsResults?: TestResultUpdateManyWithoutTeacherNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutTestResultsInput = {
+  export type UserUncheckedUpdateWithoutStudentResultsInput = {
     id?: IntFieldUpdateOperationsInput | number
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
@@ -8173,15 +8422,15 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courses?: CourseEnrollmentUncheckedUpdateManyWithoutMemberNestedInput
-    TestResult?: TestResultUncheckedUpdateManyWithoutTeacherNestedInput
+    gradedTestsResults?: TestResultUncheckedUpdateManyWithoutTeacherNestedInput
   }
 
-  export type UserUpsertWithoutTestResultInput = {
-    update: XOR<UserUpdateWithoutTestResultInput, UserUncheckedUpdateWithoutTestResultInput>
-    create: XOR<UserCreateWithoutTestResultInput, UserUncheckedCreateWithoutTestResultInput>
+  export type UserUpsertWithoutGradedTestsResultsInput = {
+    update: XOR<UserUpdateWithoutGradedTestsResultsInput, UserUncheckedUpdateWithoutGradedTestsResultsInput>
+    create: XOR<UserCreateWithoutGradedTestsResultsInput, UserUncheckedCreateWithoutGradedTestsResultsInput>
   }
 
-  export type UserUpdateWithoutTestResultInput = {
+  export type UserUpdateWithoutGradedTestsResultsInput = {
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
     username?: StringFieldUpdateOperationsInput | string
@@ -8191,10 +8440,10 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courses?: CourseEnrollmentUpdateManyWithoutMemberNestedInput
-    testResults?: TestResultUpdateManyWithoutStudentNestedInput
+    studentResults?: TestResultUpdateManyWithoutStudentNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutTestResultInput = {
+  export type UserUncheckedUpdateWithoutGradedTestsResultsInput = {
     id?: IntFieldUpdateOperationsInput | number
     firstName?: StringFieldUpdateOperationsInput | string
     lastName?: StringFieldUpdateOperationsInput | string
@@ -8205,7 +8454,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     courses?: CourseEnrollmentUncheckedUpdateManyWithoutMemberNestedInput
-    testResults?: TestResultUncheckedUpdateManyWithoutStudentNestedInput
+    studentResults?: TestResultUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type CourseEnrollmentCreateManyMemberInput = {
@@ -8237,7 +8486,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     userRole?: EnumuserRoleFieldUpdateOperationsInput | userRole
-    course?: CourseUpdateOneRequiredWithoutCoursesNestedInput
+    course?: CourseUpdateOneRequiredWithoutMembersNestedInput
   }
 
   export type CourseEnrollmentUncheckedUpdateWithoutMemberInput = {
@@ -8259,7 +8508,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     test?: TestUpdateOneRequiredWithoutTestResultsNestedInput
-    teacher?: UserUpdateOneRequiredWithoutTestResultNestedInput
+    teacher?: UserUpdateOneRequiredWithoutGradedTestsResultsNestedInput
   }
 
   export type TestResultUncheckedUpdateWithoutStudentInput = {
@@ -8271,7 +8520,7 @@ export namespace Prisma {
     teacherId?: IntFieldUpdateOperationsInput | number
   }
 
-  export type TestResultUncheckedUpdateManyWithoutTestResultsInput = {
+  export type TestResultUncheckedUpdateManyWithoutStudentResultsInput = {
     id?: IntFieldUpdateOperationsInput | number
     result?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8285,7 +8534,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     test?: TestUpdateOneRequiredWithoutTestResultsNestedInput
-    student?: UserUpdateOneRequiredWithoutTestResultsNestedInput
+    student?: UserUpdateOneRequiredWithoutStudentResultsNestedInput
   }
 
   export type TestResultUncheckedUpdateWithoutTeacherInput = {
@@ -8297,7 +8546,7 @@ export namespace Prisma {
     studentId?: IntFieldUpdateOperationsInput | number
   }
 
-  export type TestResultUncheckedUpdateManyWithoutTestResultInput = {
+  export type TestResultUncheckedUpdateManyWithoutGradedTestsResultsInput = {
     id?: IntFieldUpdateOperationsInput | number
     result?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8311,6 +8560,14 @@ export namespace Prisma {
     updatedAt?: Date | string
     userRole: userRole
     memberId: number
+  }
+
+  export type TestCreateManyCourseInput = {
+    id?: number
+    title: string
+    testDate?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type CourseEnrollmentUpdateWithoutCourseInput = {
@@ -8327,6 +8584,38 @@ export namespace Prisma {
     memberId?: IntFieldUpdateOperationsInput | number
   }
 
+  export type CourseEnrollmentUncheckedUpdateManyWithoutMembersInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    userRole?: EnumuserRoleFieldUpdateOperationsInput | userRole
+    memberId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type TestUpdateWithoutCourseInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    testDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    testResults?: TestResultUpdateManyWithoutTestNestedInput
+  }
+
+  export type TestUncheckedUpdateWithoutCourseInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    testDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    testResults?: TestResultUncheckedUpdateManyWithoutTestNestedInput
+  }
+
+  export type TestUncheckedUpdateManyWithoutTestsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    testDate?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type TestResultCreateManyTestInput = {
     id?: number
     result: Decimal | DecimalJsLike | number | string
@@ -8340,11 +8629,20 @@ export namespace Prisma {
     result?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    student?: UserUpdateOneRequiredWithoutTestResultsNestedInput
-    teacher?: UserUpdateOneRequiredWithoutTestResultNestedInput
+    student?: UserUpdateOneRequiredWithoutStudentResultsNestedInput
+    teacher?: UserUpdateOneRequiredWithoutGradedTestsResultsNestedInput
   }
 
   export type TestResultUncheckedUpdateWithoutTestInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    result?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    studentId?: IntFieldUpdateOperationsInput | number
+    teacherId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type TestResultUncheckedUpdateManyWithoutTestResultsInput = {
     id?: IntFieldUpdateOperationsInput | number
     result?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
