@@ -6,6 +6,7 @@
 ➜ teacher can teach one or more courses. </br>
 ➜ course can have one or many students. </br>
 ➜ course can be teached by only one teacher. </br>
+➜ user can only be associated to a course as a one role, either student or a teacher </br>
 ➜ course has one or more tests. </br>
 ➜ test has one or more test results. </br>
 
